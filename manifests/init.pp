@@ -16,7 +16,7 @@ i# === Copyright
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class continuent_galera ( $nodes = false ) {
+class continuent_galera ( $nodes = false, $initialState = 'slave'  ) {
 
     package {'Percona-XtraDB-Cluster-server-55':
             ensure => 'present'
@@ -39,4 +39,17 @@ class continuent_galera ( $nodes = false ) {
                 mode            => 644,
                 content => template("continuent_galera/sstuser.sql.erb"),
     }
+
+   if $initialState == 'slave' {
+     exec { "start-mysql" :
+          command => "/etc/init.d/mysql start",
+     }
+   }
+
+  if $initialState == 'master' {
+    exec { "start-mysql" :
+           command => "/etc/init.d/mysql start --wsrep-cluster-address='gcomm://'",
+    }
+  } 
+	
 }
