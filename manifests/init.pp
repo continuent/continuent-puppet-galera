@@ -31,4 +31,12 @@ class continuent_galera ( $nodes = false ) {
                 mode            => 644,
                 content => template("continuent_galera/my.erb"),
     }
+
+    file { "sstuser.sql":
+                path            => "/root/sstuser.sql",
+                owner    => root,
+                group    => root,
+                mode            => 644,
+                content => template("continuent_galera/sstuser.sql.erb"),
+    }
 }
