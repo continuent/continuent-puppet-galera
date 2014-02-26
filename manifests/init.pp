@@ -16,7 +16,7 @@ i# === Copyright
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class continuent_galera ( $nodes = false, $initialState = 'slave'  ) {
+class galera ( $nodes = false, $initialState = 'slave'  ) {
 
     package {'Percona-XtraDB-Cluster-server-55':
             ensure => 'present'
@@ -29,7 +29,7 @@ class continuent_galera ( $nodes = false, $initialState = 'slave'  ) {
                 owner    => mysql,
                 group    => mysql,
                 mode            => 644,
-                content => template("continuent_galera/my.erb"),
+                content => template("galera/my.erb"),
     }
 
     file { "sstuser.sql":
@@ -37,7 +37,7 @@ class continuent_galera ( $nodes = false, $initialState = 'slave'  ) {
                 owner    => root,
                 group    => root,
                 mode            => 644,
-                content => template("continuent_galera/sstuser.sql.erb"),
+                content => template("galera/sstuser.sql.erb"),
     }
 
    if $initialState == 'slave' {
